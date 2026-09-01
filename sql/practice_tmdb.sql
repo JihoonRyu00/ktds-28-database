@@ -133,3 +133,117 @@ SELECT *
   FROM MV
  WHERE DEL_YN = 'N'
 ;
+
+
+SELECT MV_ID
+	 , TTL
+	 , MV_RTNG
+	 , RNNG_TM
+	 , SMMR
+	 , TO_CHAR(RLS_DT, 'YYYY-MM-DD') AS RLS_DT 
+	 , MAIN_PSTR_URL
+	 , FB_URL
+	 , X_URL
+	 , INSTA_URL
+	 , TGLN
+	 , ORGNL_TTL
+	 , PLYNG
+	 , ORGNL_LNGG
+	 , BDGT
+	 , BX_OFFC_RVN
+  FROM MV 
+ WHERE DEL_YN = 'N'
+   AND MV_ID = :mvId -- '1-spider-man-brand-new-day'
+;
+
+SELECT G.GNR_ID 
+	 , G.NM
+  FROM GNR G
+ INNER JOIN MV_GNR MG
+ 	ON G.GNR_ID = MG.GNR_ID
+ WHERE MG.MV_ID = :mvId
+;
+
+SELECT M.MV_ID
+	 , M.TTL
+	 , M.MV_RTNG
+	 , M.RNNG_TM
+	 , M.SMMR
+	 , TO_CHAR(M.RLS_DT, 'YYYY-MM-DD') AS RLS_DT 
+	 , M.MAIN_PSTR_URL
+	 , M.FB_URL
+	 , M.X_URL
+	 , M.INSTA_URL
+	 , M.TGLN
+	 , M.ORGNL_TTL
+	 , M.PLYNG
+	 , M.ORGNL_LNGG
+	 , M.BDGT
+	 , M.BX_OFFC_RVN
+  FROM MV M
+ INNER JOIN MV_GNR MG
+ 	ON M.MV_ID = MG.MV_ID
+ WHERE DEL_YN = 'N'
+   AND MG.GNR_ID = :gnrId
+;
+
+SELECT K.KYWRD_ID 
+	 , k.KYWRD 
+  FROM MV_KYWRD MK
+ INNER JOIN KYWRD K
+ 	ON MK.KYWRD_ID = K.KYWRD_ID
+ WHERE MK.MV_ID = :mvId
+;
+
+SELECT VD_ID 
+	 , URL 
+  FROM VD
+ WHERE MV_ID = :mvId
+;
+
+SELECT BCKGRND_ID 
+	 , URL 
+  FROM BCKGRND 
+ WHERE MV_ID = :mvId
+;
+
+SELECT PSTR_ID 
+	 , URL 
+  FROM PSTR 
+ WHERE MV_ID = :mvId
+;
+
+SELECT STR_ID 
+	 , MV_ID 
+	 , INVLVD_ID 
+	 , RL 
+  FROM STR 
+ WHERE MV_ID = :mvId
+;
+
+SELECT FLMMKR_ID 
+	 , MV_ID 
+	 , INVLVD_ID 
+	 , PRT 
+	 , RL
+  FROM FLMMKR
+ WHERE MV_ID = :mvId
+;
+
+
+SELECT INVLVD_ID 
+	 , PRFL_URL 
+	 , NM
+  FROM INVLVD
+ WHERE INVLVD_ID = :invlvdId
+;
+
+SELECT I.INVLVD_ID 
+	 , I.PRFL_URL 
+	 , I.NM 
+--	 , S.RL 
+  FROM INVLVD I
+ INNER JOIN STR S
+ 	ON I.INVLVD_ID = S.INVLVD_ID
+ WHERE S.MV_ID = :mvId
+;
